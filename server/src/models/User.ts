@@ -1,50 +1,85 @@
-import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../config/db';
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-export class User extends Model {
-  public id!: number;
-  public github_id!: number;
-  public login!: string;
-  public name!: string | null;
-  public location!: string | null;
-  public blog!: string | null;
-  public bio!: string | null;
-  public public_repos!: number;
-  public public_gists!: number;
-  public followers!: number;
-  public following!: number;
-  public created_at!: Date;
-  public deleted_at!: Date | null;
+export interface IUser extends Document {
+  github_id: number;
+  login: string;
+  name?: string;
+  location?: string;
+  blog?: string;
+  bio?: string;
+  public_repos: number;
+  public_gists: number;
+  followers: number;
+  following: number;
+  followers_url?: string;
+  following_url?: string;
+  repos_url?: string;
+  created_at: Date;
+  deleted_at?: Date | null;
+  updatedAt: Date;  
 }
 
-User.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
+const UserSchema: Schema = new Schema<IUser>(
+  {
+    github_id: {
+      type: Number,
+      unique: true,
+      required: true,
+    },
+    login: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
+    blog: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    public_repos: {
+      type: Number,
+      default: 0,
+    },
+    public_gists: {
+      type: Number,
+      default: 0,
+    },
+    followers: {
+      type: Number,
+      default: 0,
+    },
+    following: {
+      type: Number,
+      default: 0,
+    },
+    followers_url: {
+      type: String,
+    },
+    following_url: {
+      type: String,
+    },
+    repos_url: {
+      type: String,
+    },
+    created_at: {
+      type: Date,
+      default: Date.now,
+    },
+    deleted_at: {
+      type: Date,
+      default: null,
+    },
   },
-  github_id: {
-    type: DataTypes.INTEGER,
-    unique: true
-  },
-  login: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  name: DataTypes.STRING,
-  location: DataTypes.STRING,
-  blog: DataTypes.TEXT,
-  bio: DataTypes.TEXT,
-  public_repos: DataTypes.INTEGER,
-  public_gists: DataTypes.INTEGER,
-  followers: DataTypes.INTEGER,
-  following: DataTypes.INTEGER,
-  created_at: DataTypes.DATE,
-  deleted_at: DataTypes.DATE
-}, {
-  sequelize,
-  modelName: 'User',
-  paranoid: true,
-  timestamps: true,
-  deletedAt: 'deleted_at'
-});
+  {
+    timestamps: true, 
+  }
+);
+
+const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
+export default User;

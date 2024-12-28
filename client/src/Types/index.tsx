@@ -7,10 +7,18 @@ export interface GitHubUser {
     following: number;
   }
   
- export interface Repository {
+  export interface Repository {
     id: number;
     name: string;
-    description: string;
+    full_name: string;
+    private: boolean;
     html_url: string;
+    description: string | null;
+    created_at: string; 
+    updated_at: string;
+    pushed_at: string;
+    language: string | null;
+    forks_count: number;
+    stargazers_count: number;
+    watchers_count: number;
   }
-  

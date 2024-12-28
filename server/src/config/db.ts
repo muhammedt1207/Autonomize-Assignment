@@ -1,32 +1,18 @@
-import { Sequelize } from 'sequelize';
-import dotenv from 'dotenv';
+import mongoose from 'mongoose'
 
-dotenv.config();
+export default async () => {
+    try {
+        const mongouri = process.env.MONGOURI
 
-const databaseUrl = process.env.DATABASE_URL;
+        if (!mongouri) {
+            throw new Error("MongoURI not found");
+        }
+        mongoose.connect(mongouri?.trim())
+        console.log(`🍃 MongoDB connected successfully 🍃`);
+        
 
-if (!databaseUrl) {
-  throw new Error('DATABASE_URL is not defined in the .env file');
+    } catch (error) {
+        console.log(error);
+        
+    }
 }
-
-console.log('Database URL:', databaseUrl); // Debugging
-
-export const sequelize = new Sequelize(databaseUrl, {
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false, 
-    },
-  },
-});
-
-export const connectToDatabase = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Database connection established successfully.');
-  } catch (error:any) {
-    console.error('Unable to connect to the database:', error?.message); // Log the specific error message
-    process.exit(1);
-  }
-};
