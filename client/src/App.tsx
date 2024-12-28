@@ -5,22 +5,18 @@ import { store } from './redux/store';
 import { SearchPage } from './Pages/SearchPage';
 import { UserProfile } from './Pages/UseProfile';
 import RepositoryDetails  from './Pages/RepositoryDetails';
-
+import  FollowList  from './Pages/FollowList';
+import './App.css'
 const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <div className="app">
-          {/* <nav>
-            <Link to="/">Home</Link>
-          </nav> */}
           <Routes>
             <Route path="/" element={<SearchPage />} />
             <Route path="/user/:username" element={<UserProfile />} />
             <Route path="/user/:username/repo/:repoName" element={<RepositoryDetails />} />
-            {/* <Route path="/user/:username/followers" element={<FollowersList />} /> */}
+            <Route path="/user/:username/:type" element={<FollowList />} />
           </Routes>
-        </div>
       </Router>
     </Provider>
   );

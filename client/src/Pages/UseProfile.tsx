@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { fetchUser } from '../redux/actions/UserActions';
+import { fetchUser, } from '../redux/actions/UserActions';
 import { fetchRepositories } from '../redux/actions/RepoActions';
 import { Repository } from '../Types';
-import '../style/UserProfile.css'
+import '../style/UserProfile.css';
+
 export const UserProfile = () => {
   const { username } = useParams();
   const navigate = useNavigate();
@@ -18,12 +19,30 @@ export const UserProfile = () => {
     (state: RootState) => state.repositories
   );
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [bio, setBio] = useState('');
+  const [blog, setBlog] = useState('');
+
   useEffect(() => {
     if (username) {
       dispatch(fetchUser(username));
       dispatch(fetchRepositories(username));
     }
   }, [username, dispatch]);
+
+  useEffect(() => {
+    if (user) {
+      setBio(user.bio || '');
+      setBlog(user.blog || '');
+    }
+  }, [user]);
+
+  const handleSave = () => {
+    if (username) {
+    //   dispatch(updateUserProfile({ username, bio, blog }));
+    //   setIsEditing(false);
+    }
+  };
 
   if (userLoading || reposLoading) return <div>Loading...</div>;
   if (userError || reposError) return <div>Error loading data</div>;
@@ -34,11 +53,34 @@ export const UserProfile = () => {
       <aside className="sidebar">
         <img src={user.avatar_url} alt={user.login} className="avatar" />
         <h2>{user.name || user.login}</h2>
-        <p>{user.bio}</p>
-        {user.blog && (
-          <a href={user.blog} target="_blank" rel="noopener noreferrer" className="blog">
-            {user.blog}
-          </a>
+        {isEditing ? (
+          <>
+            <textarea
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="Edit your bio"
+              className="edit-bio"
+            />
+            <input
+              type="text"
+              value={blog}
+              onChange={(e) => setBlog(e.target.value)}
+              placeholder="Edit your blog URL"
+              className="edit-blog"
+            />
+            <button onClick={handleSave} className="save-button">Save</button>
+            <button onClick={() => setIsEditing(false)} className="cancel-button">Cancel</button>
+          </>
+        ) : (
+          <>
+            <p>{user.bio}</p>
+            {user.blog && (
+              <a href={user.blog} target="_blank" rel="noopener noreferrer" className="blog">
+                {user.blog}
+              </a>
+            )}
+            <button onClick={() => setIsEditing(true)} className="edit-button">Edit</button>
+          </>
         )}
         <div className="stats">
           <button onClick={() => navigate(`/user/${username}/followers`)}>
