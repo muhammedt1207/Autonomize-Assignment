@@ -21,4 +21,7 @@ export interface GitHubUser {
     forks_count: number;
     stargazers_count: number;
     watchers_count: number;
+    size: number; 
+    subscribers_count: number; 
+    clone_url: string;
   }

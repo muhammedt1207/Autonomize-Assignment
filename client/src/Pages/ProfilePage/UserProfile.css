@@ -5,11 +5,10 @@
     margin: 2rem auto;
     padding: 0 1rem;
     min-height: 100vh;
-    /* position: relative; */
+    position: relative;
     background-color: rgb(255, 255, 255);
   }
   
-  /* Sidebar Styles */
   .sidebar {
     position: sticky;
     top: 2rem;
@@ -97,12 +96,11 @@
   
   .repository-item {
     background: #fff;
-    /* border: 1px solid #e1e4e8; */
     border-radius: 8px;
     padding: 1rem;
     text-decoration: none;
     color: inherit;
-    height: 150px; /* Fixed height */
+    height: 150px; 
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -134,10 +132,9 @@
     -webkit-box-orient: vertical;
   }
   
-  /* Media Queries for Responsiveness */
   @media (max-width: 1024px) {
     .repository-list {
-      grid-template-columns: repeat(2, 1fr); /* Maintain 2 columns */
+      grid-template-columns: repeat(2, 1fr); 
     }
   }
   
@@ -155,7 +152,7 @@
     }
   
     .repository-list {
-      grid-template-columns: 1fr; /* Single column on mobile */
+      grid-template-columns: 1fr; 
     }
   }
   
@@ -174,11 +171,10 @@
     }
   }
   
-  /* Add these styles to ensure proper scrolling */ */
    html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    /* height: 100%; */
     overflow-x: hidden;
   }
   
@@ -206,25 +202,24 @@
     transition: all 0.2s ease;
 }
 
-/* Add a consistent margin to separate buttons */
 .save-button {
     background-color: #28a745;
     color: #fff;
     border: none;
-    margin-bottom: 0.5rem; /* Adds spacing below the save button */
+    margin-bottom: 0.5rem; 
 }
 
 .cancel-button {
     background-color: #d73a49;
     color: #fff;
     border: none;
-    margin-bottom: 0.5rem; /* Adds spacing below the cancel button */
+    margin-bottom: 0.5rem;
 }
 
 .edit-button {
     background-color: #0366d6;
     color: #fff;
     border: none;
-    margin-bottom: 0.5rem; /* Adds spacing below the edit button */
+    margin-bottom: 0.5rem; 
 }
   

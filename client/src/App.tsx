@@ -1,11 +1,10 @@
-import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { store } from './redux/store';
-import { SearchPage } from './Pages/SearchPage';
-import { UserProfile } from './Pages/UseProfile';
-import RepositoryDetails  from './Pages/RepositoryDetails';
-import  FollowList  from './Pages/FollowList';
+import { SearchPage } from './Pages/Home/SearchPage';
+import { UserProfile } from './Pages/ProfilePage/UseProfile';
+import RepositoryDetails  from './Pages/RepoDetails/RepositoryDetails';
+import  FollowList  from './Pages/FollowList/FollowList';
 import './App.css'
 const App = () => {
   return (

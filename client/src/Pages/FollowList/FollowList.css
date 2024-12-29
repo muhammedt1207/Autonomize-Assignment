@@ -1,0 +1,108 @@
+.main-layout {
+    display: grid;
+    grid-template-columns: 296px 1fr;
+    gap: 24px;
+    width: 100vw;
+    margin: 0 auto;
+    padding: 24px;
+    background-color: #e41a1a;
+  }
+  
+  .profile-sidebar {
+    position: fixed; 
+    
+   
+  }
+  
+  .content-area {
+    margin-left: 320px; 
+    width: 100%;
+    background-color: blue;
+  }
+  
+  .content-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #24292f;
+    margin: 0 0 16px 0;
+  }
+  
+  .followers-container {
+    background: white;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .follower-card {
+    border-bottom: 1px solid #d0d7de;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 24px; 
+    min-height: 120px; 
+  }
+  
+  .follower-card:last-child {
+    border-bottom: none;
+  }
+  
+
+  
+  .follower-card-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .follower-avatar {
+    width: 60px; /* Increased avatar size */
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .follower-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+  
+  .follower-name {
+    font-size: 16px; 
+    font-weight: 600;
+    color: #24292f;
+    margin: 0;
+  }
+  
+  .follower-username {
+    font-size: 14px;
+    color: #57606a;
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    padding: 24px;
+    color: #57606a;
+    font-size: 16px;
+  }
+  
+  @media (max-width: 768px) {
+    .main-layout {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 16px;
+    }
+  
+    .profile-sidebar {
+      position: static;
+      width: 100%;
+      height: auto;
+    }
+  
+    .content-area {
+      width: 100%;
+    }
+  }
+  

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../style/SearchPage.css'
+import './SearchPage.css'
 export const SearchPage = () => {
     const [username, setUsername] = useState('');
     const navigate = useNavigate();
