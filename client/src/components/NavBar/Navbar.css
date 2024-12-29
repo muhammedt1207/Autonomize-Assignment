@@ -2,15 +2,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #24292e;
+    background-color: #ffffff;
     padding: 10px 20px;
     color: #6e6e6e;
+  }
+  
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
   }
   
   .navbar-title {
     font-size: 1.5rem;
     font-weight: bold;
-    margin: 0;
+    margin: 20px;
+    text-decoration: none;
   }
   
   .navbar-button {
@@ -25,6 +33,5 @@
   }
   
   .navbar-button:hover {
-    background-color: #024fa2;
+    background-color: #024fa2;
   }
-  

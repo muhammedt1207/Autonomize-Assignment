@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import { fetchUserData } from '../utils/github';
+import { fetchUserData, testGitHubToken } from '../utils/github';
 import axios from 'axios';
 
 export class UserController {
@@ -11,11 +11,16 @@ export class UserController {
       let user = await User.findOne({ login: username });
 
 
-        console.log(username)
+      console.log(username)
       if (!user) {
+        const isTokenValid = await testGitHubToken();
+        console.log('Is token valid:', isTokenValid);
+        if (!isTokenValid) {
+          throw new Error('token not valid')
+        }
         const userData = await fetchUserData(username);
         console.log(userData);
-        
+
         user = await User.create({
           github_id: userData.id,
           login: userData.login,
@@ -23,7 +28,7 @@ export class UserController {
           location: userData.location,
           blog: userData.blog,
           bio: userData.bio,
-          avatar_url:userData.avatar_url,
+          avatar_url: userData.avatar_url,
           public_repos: userData.public_repos,
           public_gists: userData.public_gists,
           followers: userData.followers,
@@ -44,6 +49,11 @@ export class UserController {
 
 
         if (hoursDifference >= 24) {
+          const isTokenValid = await testGitHubToken();
+          console.log('Is token valid:', isTokenValid);
+          if (!isTokenValid) {
+            throw new Error('token not valid')
+          }
           const userData = await fetchUserData(username);
           user = await User.findOneAndUpdate(
             { login: username },
@@ -72,11 +82,41 @@ export class UserController {
 
       res.json(user);
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
+
       res.status(400).json({ error: 'Failed to fetch user' });
     }
   }
+
+
+  static async getUsers(req: Request, res: Response): Promise<void> {
+    try {
+      const { page = 1, limit = 5, search = '' } = req.query;
+      console.log(page,limit,search,'-------------------------------------')
+      const pageNumber = Number(page);
+      const limitNumber = Number(limit);
+
+      const searchQuery = {
+        ...search ? { name: { $regex: search, $options: 'i' } } : {},
+        deleted: false,
+      };
+
+      console.log(searchQuery,'=================');
+      
+      let skipNumber = (pageNumber - 1) * limitNumber
+
+      const users = await User.find(searchQuery).skip(skipNumber).limit(limitNumber);
+      console.log(users, 'total users')
+      const total = await User.countDocuments(searchQuery);
+
+      res.status(200).json({ users, total, page: pageNumber, limit: limitNumber });
+    } catch (error) {
+      console.log('Failed to fetch users:',error)
+      res.status(400).json({ error: 'Failed to fetch users' });
+
+    }
+  };
+
 
 
 
@@ -100,6 +140,9 @@ export class UserController {
       res.status(400).json({ error: 'Failed to delete user' });
     }
   }
+
+
+
 
   static async updateUser(req: Request, res: Response): Promise<void> {
     try {
@@ -130,6 +173,11 @@ export class UserController {
       let user = await User.findOne({ login: username });
 
       if (!user) {
+        const isTokenValid = await testGitHubToken();
+        console.log('Is token valid:', isTokenValid);
+        if (!isTokenValid) {
+          throw new Error('token not valid')
+        }
         const userData = await fetchUserData(username);
         user = await User.create({
           github_id: userData.id,

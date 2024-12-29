@@ -1,20 +1,20 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { Repository } from '../../Types';
-import './RepoDetails.css'
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { Repository } from "../../Types";
+import "./RepoDetails.css";
 const RepositoryDetails = () => {
   const { username, repoName } = useParams();
   const navigate = useNavigate();
 
-  const repo = useSelector((state: RootState): Repository | undefined => 
+  const repo = useSelector((state: RootState): Repository | undefined =>
     state.repositories.data.find((repo: Repository) => repo.name === repoName)
   );
 
   const handleCloneButtonClick = () => {
     if (repo?.clone_url) {
       navigator.clipboard.writeText(repo.clone_url);
-      alert('Git clone URL copied to clipboard!');
+      alert("Git clone URL copied to clipboard!");
     }
   };
 
@@ -22,7 +22,7 @@ const RepositoryDetails = () => {
     return (
       <div className="repository-details">
         <p>Repository not found</p>
-        <button 
+        <button
           onClick={() => navigate(`/user/${username}`)}
           className="back-button"
         >
@@ -33,41 +33,56 @@ const RepositoryDetails = () => {
   }
 
   return (
-    <div className="repository-details">
-      <h2>{repo.name}</h2>
-      
-      <p><strong>Description:</strong> {repo.description || 'No description available'}</p>
-      <p><strong>Language:</strong> {repo.language || 'Not specified'}</p>
-      <p><strong>Size:</strong> {repo.size ? `${repo.size} KB` : 'Not specified'}</p>
-      <p><strong>Subscribers Count:</strong> {repo.subscribers_count || 'Not available'}</p>
-      <p><strong>Forks Count:</strong> {repo.forks_count || 'Not available'}</p>
+    <div className="repository-main">
+      <div className="repository-details">
+        <h2>{repo.name}</h2>
 
-      <div className="repository-info">
-        <a 
-          href={repo.html_url} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="github-link"
+        <p>
+          <strong>Description:</strong>{" "}
+          {repo.description || "No description available"}
+        </p>
+        <p>
+          <strong>Language:</strong> {repo.language || "Not specified"}
+        </p>
+        <p>
+          <strong>Size:</strong>{" "}
+          {`repo.size ? ${repo.size} KB : "Not specified"`}
+        </p>
+        <p>
+          <strong>Subscribers Count:</strong>{" "}
+          {repo.subscribers_count || "Not available"}
+        </p>
+        <p>
+          <strong>Forks Count:</strong> {repo.forks_count || "Not available"}
+        </p>
+
+        <div className="repository-info">
+          <a
+            href={repo.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="github-link"
+          >
+            View on GitHub
+          </a>
+        </div>
+        <br />
+        <div
+          className="buttons"
+          style={{ display: "flex", justifyContent: "space-between" }}
         >
-          View on GitHub
-        </a>
+          <button onClick={handleCloneButtonClick} className="clone-button">
+            Git Clone
+          </button>
+
+          <button
+            onClick={() => navigate(`/user/${username}`)}
+            className="back-button"
+          >
+            Back to Profile
+          </button>
+        </div>
       </div>
-    <div className='buttons'>
-
-      <button 
-        onClick={handleCloneButtonClick}
-        className="clone-button"
-      >
-        Git Clone 
-      </button>
-
-      <button 
-        onClick={() => navigate(`/user/${username}`)}
-        className="back-button"
-      >
-        Back to Profile
-      </button>
-    </div>
     </div>
   );
 };

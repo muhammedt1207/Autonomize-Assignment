@@ -1,20 +1,30 @@
-/* Styles for SearchPage */
-body {
+/* body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-    background-color: #ffffff; /* Optional light background color */
+    background-color: #ffffff; 
     display: flex;
     justify-content: center;
     align-items: center;
    
-  }
-  
+  } */
+
   form {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Space between input and button */
+    gap: 0.5rem;
+  }
+  
+  .search-form {
+    width: 300px;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
   }
   
   .search-input {
@@ -43,6 +53,5 @@ body {
   }
   
   .search-button:hover {
-    background-color: #0056b3;
+    background-color: #0056b3;
   }
-  

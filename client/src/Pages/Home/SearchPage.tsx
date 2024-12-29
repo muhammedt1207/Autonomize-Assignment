@@ -14,7 +14,7 @@ export const SearchPage = () => {
   
     return (
       <div className="search-container">
-        <form onSubmit={handleSubmit}>
+        <form className="search-form" onSubmit={handleSubmit}>
           <input
             type="text"
             value={username}
@@ -25,5 +25,5 @@ export const SearchPage = () => {
           <button type="submit" className="search-button">Search</button>
         </form>
       </div>
-    );
-  };
+    );
+  };

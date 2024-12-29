@@ -1,48 +1,47 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const fetchDataWithRetry = async (url: string, retries = 3): Promise<any> => {
-  const token = process.env.REACT_APP_GITHUB_TOKEN;
-
-  const headers = {
-    Authorization: `token ${token}`,
-  };
-
-  for (let i = 0; i < retries; i++) {
-    try {
-      const response = await axios.get(url, { headers });
-      return response.data;
-    } catch (error: any) {
-      if (
-        error.response?.status === 403 &&
-        error.response.data.message.includes('rate limit')
-      ) {
-        console.log('Rate limit exceeded. Retrying...');
-        await new Promise((resolve) => setTimeout(resolve, (i + 1) * 1000));
-      } else {
-        throw error;
-      }
-    }
-  }
-};
+const token =process.env.GITHUB_AUTH?.trim() 
+console.log('token:',token)
 
 export const fetchUserData = async (username: string): Promise<any> => {
   try {
-    const user = await fetchDataWithRetry(
-      `https://api.github.com/users/${username}`
-    );
-    return user;
+    console.log(username, 'username for fetching data');
+    const result = await axios.get(`https://api.github.com/users/${username}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,  // Changed from 'token' to 'Bearer'
+        'Accept': 'application/vnd.github.v3+json'
+      },
+    });
+    
+    return result.data;
   } catch (error: any) {
-    console.error('Failed to fetch user data:', error.message);
-    throw new Error('Failed to fetch user data');
+    // Enhanced error logging
+    if (error.response) {
+      console.error('Error response:', {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        data: error.response.data
+      });
+    }
+    throw new Error(`Failed to fetch user data: ${error.message}`);
   }
 };
 
-export const fetchUserRepos = async (reposUrl: string): Promise<any[]> => {
+// Add a function to test the token
+export const testGitHubToken = async (): Promise<boolean> => {
   try {
-    const repos = await fetchDataWithRetry(reposUrl);
-    return repos;
-  } catch (error: any) {
-    console.error('Failed to fetch user repositories:', error.message);
-    throw new Error('Failed to fetch user repositories');
+    await axios.get('https://api.github.com/user', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+
+    return true;
+  } catch (error) {
+    console.error('Token validation failed:', error);
+    return false;
   }
 };

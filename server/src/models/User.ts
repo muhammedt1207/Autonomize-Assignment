@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { boolean } from "zod";
 
 export interface IUser extends Document {
   github_id: number;
@@ -16,7 +17,7 @@ export interface IUser extends Document {
   following_url?: string;
   repos_url?: string;
   created_at: Date;
-  deleted_at?: Date | null;
+  deleted?: Boolean;
   updatedAt: Date;  
 }
 
@@ -75,9 +76,9 @@ const UserSchema: Schema = new Schema<IUser>(
       type: Date,
       default: Date.now,
     },
-    deleted_at: {
-      type: Date,
-      default: null,
+    deleted: {
+      type: Boolean,
+      default: false,
     },
   },
   {

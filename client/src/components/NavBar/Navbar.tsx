@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 
 export const Navbar: React.FC = () => {
@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-content">
-        <h1 className="navbar-title">GitHub Profile</h1>
+        <Link to='/'><h1 className="navbar-title">GitHub Profile</h1></Link>
         <button className="navbar-button" onClick={handleRedirect}>
           View All Users
         </button>
