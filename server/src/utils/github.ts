@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const token =process.env.GITHUB_AUTH?.trim() 
-console.log('token:',token)
 
 export const fetchUserData = async (username: string): Promise<any> => {
   try {
