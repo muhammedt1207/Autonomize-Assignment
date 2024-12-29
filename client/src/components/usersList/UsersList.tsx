@@ -46,7 +46,7 @@ export const UsersList: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       if (confirm('Are you sure you want to delete this user?')) {
-        const res = await axios.delete(`${endpoint}/${id}`);
+       await axios.delete(`${endpoint}/${id}`);
         setPage(1); 
         fetchUsers()
         toast.success('User deleted successfully!')
