@@ -5,18 +5,19 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-  }
+}
 
-  .table-headers {
+.table-headers {
     color: black;
     background: linear-gradient(to right, #4facfe, #00f2fe);
     font-size: 20px;
     text-transform: uppercase;
-  }
+}
 
-  table {
+table {
     width: 90%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin: 20px 0;
     font-size: 18px;
     text-align: center;
@@ -25,47 +26,53 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
-  }
+}
 
-  th,
-  td {
-    padding: 15px;
-    border: 1px solid #ddd;
-  }
+th,
+td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+}
 
-  th {
+th {
     background-color: #b7b9bb;
     color: white;
     font-weight: bold;
-  }
+}
 
-  tr:nth-child(even) {
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:nth-child(even) {
     background-color: #f2f2f2;
-  }
+}
 
-  tr:hover {
+tr:hover {
     background-color: #eaf6ff;
     cursor: pointer;
-  }
+}
 
-  img {
+img {
     border-radius: 50%;
     width: 50px;
     height: 50px;
-  }
+}
 
-  td img {
+td img {
     vertical-align: middle;
-  }
+}
 
-  .pagination {
+.pagination {
     margin: 20px 0;
     display: flex;
     justify-content: center;
     gap: 10px;
-  }
+}
 
-  .pagination button {
+.pagination button {
     background-color: #4facfe;
     color: white;
     padding: 10px 15px;
@@ -73,19 +80,19 @@
     cursor: pointer;
     border: none;
     transition: background-color 0.3s ease;
-  }
+}
 
-  .pagination button:hover {
+.pagination button:hover {
     background-color: #00f2fe;
-  }
+}
 
-  .pagination button.active {
+.pagination button.active {
     background-color: #007BFF;
     font-weight: bold;
-  }
+}
 
-  .table-section input[type='text'] {
-    width: 80%;
+.table-section input[type='text'] {
+    width: 90%;
     padding: 10px 15px;
     margin-bottom: 20px;
     font-size: 16px;
@@ -94,14 +101,14 @@
     outline: none;
     transition: all 0.3s ease-in-out;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-  }
+}
 
-  .table-section input[type='text']:hover {
+.table-section input[type='text']:hover {
     border-color: #888;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-  }
+}
 
-  .table-section input[type='text']:focus {
+.table-section input[type='text']:focus {
     border-color: #757e88;
     box-shadow: 0 0 8px #92979c;
-  }
+}

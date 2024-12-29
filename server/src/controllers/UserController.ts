@@ -38,7 +38,10 @@ export class UserController {
           repos_url: userData.repos_url,
           created_at: userData.created_at,
         });
+
       } else {
+
+
         // Check if the data is older than 24 hours
         const currentTime = new Date();
         const lastUpdated = new Date(user.updatedAt);
@@ -49,11 +52,7 @@ export class UserController {
 
 
         if (hoursDifference >= 24) {
-          const isTokenValid = await testGitHubToken();
-          console.log('Is token valid:', isTokenValid);
-          if (!isTokenValid) {
-            throw new Error('token not valid')
-          }
+       
           const userData = await fetchUserData(username);
           user = await User.findOneAndUpdate(
             { login: username },
@@ -97,8 +96,13 @@ export class UserController {
       const limitNumber = Number(limit);
 
       const searchQuery = {
-        ...search ? { name: { $regex: search, $options: 'i' } } : {},
         deleted: false,
+        ...(search ? { 
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { location: { $regex: search, $options: 'i' } }
+          ] 
+        } : {})
       };
 
       console.log(searchQuery,'=================');
@@ -122,11 +126,11 @@ export class UserController {
 
   static async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      const { username } = req.params;
+      const { userId } = req.params;
 
       const user = await User.findOneAndUpdate(
-        { login: username },
-        { isDeleted: true },
+        { _id: userId },
+        { deleted: true },
         { new: true }
       );
 

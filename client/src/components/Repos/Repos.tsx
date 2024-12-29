@@ -42,7 +42,7 @@ export const Repos: React.FC<RepositoryListProps> = ({ repositories, username })
                 {new Date(repo.created_at).toLocaleDateString()}
               </span>
             </div>
-            <p>{repo.description}</p>
+            <p>{repo.description || "No description provided."}</p>
           </Link>
         ))}
       </div>

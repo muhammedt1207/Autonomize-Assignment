@@ -6,6 +6,7 @@ import { fetchUser } from '../../redux/actions/UserActions';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { endpoint } from '../../config/EndPoints';
+import { toast } from 'sonner';
 
 interface UserProfileDetailsProps {
   user: {
@@ -40,8 +41,10 @@ export const ProfileDetails: React.FC<UserProfileDetailsProps> = ({ user, userna
       console.log('Profile updated successfully:', response.data);
       setIsEditing(false);
       setError(null);
+      toast.success('Edit Success')
       dispatch(fetchUser(username))
     } catch (error: any) {
+      toast.error('Failed to update profile')
       console.error('Failed to update profile:', error.message);
       setError('Failed to save changes. Please try again.');
     }

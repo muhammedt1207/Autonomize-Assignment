@@ -4,7 +4,10 @@
     align-items: center;
     background-color: #ffffff;
     padding: 10px 20px;
-    color: #6e6e6e;
+    color: #ffffff;
+    border-bottom: #000000;
+    margin-left: 10px;
+    margin-right: 10px;
   }
   
   .navbar-content {

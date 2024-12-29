@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './UserList.css'
 import axios from 'axios';
 import { endpoint } from '../../config/EndPoints';
+import { toast } from 'sonner';
 
 interface User {
   _id: string;
@@ -32,9 +33,9 @@ export const UsersList: React.FC = () => {
         const res = await axios.get(`${endpoint}/users/get-users`, {
           params: { page, limit, search },
         });
-        console.log(res.data.users,'====')
         setUsers(res.data.users);
         setTotal(res.data.total);
+        
       } catch (error) {
         console.error('Error fetching users:', error);
       } finally {
@@ -45,11 +46,13 @@ export const UsersList: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       if (confirm('Are you sure you want to delete this user?')) {
-        const res = await axios.delete(`${endpoint}/delete-user/${id}`);
+        const res = await axios.delete(`${endpoint}/${id}`);
         setPage(1); 
         fetchUsers()
+        toast.success('User deleted successfully!')
       }
     } catch (error: any) {
+        toast.error('Error deleting user')
       console.error('Error deleting user:', error);
     }
   };

@@ -16,7 +16,12 @@ app.use(cors({
     origin: '*', 
     methods: ['GET', 'POST', 'PUT', 'DELETE','PATCH'], 
   }));
+  
 app.use('/',UserRouter );
+app.all("*", (req: Request, res: Response) => {
+  res.status(404).json({ success: false, status: 404, message: "API Not found" });
+});
+
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);

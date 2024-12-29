@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchUser } from '../../redux/actions/UserActions';
@@ -7,15 +7,16 @@ import { fetchRepositories } from '../../redux/actions/RepoActions';
 import {ProfileDetails}  from '../../components/profileDetails/ProfileDetails';
 import { Repos } from '../../components/Repos/Repos';
 import './UserProfile.css';
+import { toast } from 'sonner';
 
 export const UserProfile = () => {
   const { username } = useParams();
   const dispatch = useDispatch<AppDispatch>();
-
-  const { data: user, loading: userLoading, error: userError } = useSelector(
+  const navigate=useNavigate()
+  const { data: user, loading: userLoading, } = useSelector(
     (state: RootState) => state.user
   );
-  const { data: repos, loading: reposLoading, error: reposError } = useSelector(
+  const { data: repos, loading: reposLoading,  } = useSelector(
     (state: RootState) => state.repositories
   );
 
@@ -25,11 +26,14 @@ export const UserProfile = () => {
       .then(()=>{
         dispatch(fetchRepositories(username));
       })
+      .catch((error) => {
+        toast.error(`Error fetching user: ${error.message}`);
+        navigate('/');
+      });
     }
   }, [username, dispatch]);
 
   if (userLoading || reposLoading) return <div>Loading...</div>;
-  if (userError || reposError) return <div> Failed to fetch data</div>;
   if (!user || !username) return null;
 
   return (
