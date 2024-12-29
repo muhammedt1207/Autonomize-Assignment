@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import { fetchUserData, testGitHubToken } from '../utils/github';
+import { fetchUserData } from '../utils/github';
 import axios from 'axios';
 
 export class UserController {
@@ -13,11 +13,7 @@ export class UserController {
 
       console.log(username)
       if (!user) {
-        const isTokenValid = await testGitHubToken();
-        console.log('Is token valid:', isTokenValid);
-        if (!isTokenValid) {
-          throw new Error('token not valid')
-        }
+      
         const userData = await fetchUserData(username);
         console.log(userData);
 
@@ -177,11 +173,7 @@ export class UserController {
       let user = await User.findOne({ login: username });
 
       if (!user) {
-        const isTokenValid = await testGitHubToken();
-        console.log('Is token valid:', isTokenValid);
-        if (!isTokenValid) {
-          throw new Error('token not valid')
-        }
+      
         const userData = await fetchUserData(username);
         user = await User.create({
           github_id: userData.id,

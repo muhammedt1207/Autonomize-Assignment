@@ -46,7 +46,7 @@ const RepositoryDetails = () => {
         </p>
         <p>
           <strong>Size:</strong>{" "}
-          {`repo.size ? ${repo.size} KB : "Not specified"`}
+          {repo.size ? `${repo.size} KB` : "Not specified"}
         </p>
         <p>
           <strong>Subscribers Count:</strong>{" "}

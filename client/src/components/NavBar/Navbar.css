@@ -6,6 +6,8 @@
     padding: 10px 20px;
     color: #ffffff;
     border-bottom: #000000;
+    border: 1px solid #e1e4e8;
+    /* border-radius: 6px; */
     margin-left: 10px;
     margin-right: 10px;
   }

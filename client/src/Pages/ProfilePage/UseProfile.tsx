@@ -22,7 +22,7 @@ export const UserProfile = () => {
 
   useEffect(() => {
     if (username) {
-      dispatch(fetchUser(username))
+      dispatch(fetchUser(username)).unwrap()
       .then(()=>{
         dispatch(fetchRepositories(username));
       })

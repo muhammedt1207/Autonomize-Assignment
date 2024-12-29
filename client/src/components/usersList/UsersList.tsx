@@ -69,7 +69,7 @@ export const UsersList: React.FC = () => {
     <div className="table-section">
       <input
         type="text"
-        placeholder="Search users..."
+        placeholder="Search users,location..."
         value={search}
         onChange={handleSearchChange}
       />
