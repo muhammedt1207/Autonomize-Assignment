@@ -21,13 +21,15 @@ export const UserProfile = () => {
 
   useEffect(() => {
     if (username) {
-      dispatch(fetchUser(username));
-      dispatch(fetchRepositories(username));
+      dispatch(fetchUser(username))
+      .then(()=>{
+        dispatch(fetchRepositories(username));
+      })
     }
   }, [username, dispatch]);
 
   if (userLoading || reposLoading) return <div>Loading...</div>;
-  if (userError || reposError) return <div>Error loading data</div>;
+  if (userError || reposError) return <div> Failed to fetch data</div>;
   if (!user || !username) return null;
 
   return (

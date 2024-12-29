@@ -10,6 +10,7 @@ export interface IUser extends Document {
   public_repos: number;
   public_gists: number;
   followers: number;
+  avatar_url:string;
   following: number;
   followers_url?: string;
   following_url?: string;
@@ -32,6 +33,9 @@ const UserSchema: Schema = new Schema<IUser>(
     },
     name: {
       type: String,
+    },
+    avatar_url:{
+        type:String
     },
     location: {
       type: String,

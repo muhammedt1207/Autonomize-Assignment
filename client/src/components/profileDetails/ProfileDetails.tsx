@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './ProfileDetails.css';
+import { fetchUser } from '../../redux/actions/UserActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
+import { endpoint } from '../../config/EndPoints';
 
 interface UserProfileDetailsProps {
   user: {
@@ -20,17 +25,26 @@ export const ProfileDetails: React.FC<UserProfileDetailsProps> = ({ user, userna
   const [isEditing, setIsEditing] = useState(false);
   const [bio, setBio] = useState('');
   const [blog, setBlog] = useState('');
-
-  useEffect(() => {
+  const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+    useEffect(() => {
     if (user) {
       setBio(user.bio || '');
       setBlog(user.blog || '');
     }
   }, [user]);
 
-  const handleSave = () => {
-    // Implement save functionality
-    setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      const response = await axios.patch(`${endpoint}/${username}`, { bio, blog });
+      console.log('Profile updated successfully:', response.data);
+      setIsEditing(false);
+      setError(null);
+      dispatch(fetchUser(username))
+    } catch (error: any) {
+      console.error('Failed to update profile:', error.message);
+      setError('Failed to save changes. Please try again.');
+    }
   };
 
   return (
@@ -74,6 +88,7 @@ export const ProfileDetails: React.FC<UserProfileDetailsProps> = ({ user, userna
           Following: {user.following}
         </button>
       </div>
+      {error && <p className="error">{error}</p>}
     </aside>
   );
 };

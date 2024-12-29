@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import { fetchGithubUser } from '../utils/github';
+import { fetchUserData } from '../utils/github';
 import axios from 'axios';
 
 export class UserController {
@@ -11,9 +11,11 @@ export class UserController {
       let user = await User.findOne({ login: username });
 
 
-      
+        console.log(username)
       if (!user) {
-        const userData = await fetchGithubUser(username);
+        const userData = await fetchUserData(username);
+        console.log(userData);
+        
         user = await User.create({
           github_id: userData.id,
           login: userData.login,
@@ -21,6 +23,7 @@ export class UserController {
           location: userData.location,
           blog: userData.blog,
           bio: userData.bio,
+          avatar_url:userData.avatar_url,
           public_repos: userData.public_repos,
           public_gists: userData.public_gists,
           followers: userData.followers,
@@ -41,7 +44,7 @@ export class UserController {
 
 
         if (hoursDifference >= 24) {
-          const userData = await fetchGithubUser(username);
+          const userData = await fetchUserData(username);
           user = await User.findOneAndUpdate(
             { login: username },
             {
@@ -69,6 +72,8 @@ export class UserController {
 
       res.json(user);
     } catch (error) {
+        console.log(error);
+        
       res.status(400).json({ error: 'Failed to fetch user' });
     }
   }
@@ -125,7 +130,7 @@ export class UserController {
       let user = await User.findOne({ login: username });
 
       if (!user) {
-        const userData = await fetchGithubUser(username);
+        const userData = await fetchUserData(username);
         user = await User.create({
           github_id: userData.id,
           login: userData.login,
@@ -152,6 +157,7 @@ export class UserController {
         res.status(400).json({ error: 'Cannot find the repositories' });
       }
     } catch (error) {
+      console.log(error)
       res.status(400).json({ error: 'Failed to fetch repositories' });
     }
   }
